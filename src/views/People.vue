@@ -1,7 +1,13 @@
 <template>
-  <PeopleHeader />
-  <people-list />
-  <PeopleCard />
+  <div>
+    <PeopleHeader />
+    <div class="people-info">
+      <PeopleList />
+      <PeopleCard />
+    </div>
+  </div>
+
+
 </template>
 
 <script>
@@ -18,6 +24,11 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+  .people-info {
+    display: flex;
+    justify-content: space-between;
+    column-gap: 25px;
+  }
 
 </style>
