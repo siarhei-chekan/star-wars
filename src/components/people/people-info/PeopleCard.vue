@@ -1,11 +1,11 @@
 <template>
   <div class="card">
-    <img src="#" alt="character">
+    <img src="https://starwars-visualguide.com/assets/img/characters/1.jpg" alt="character">
     <ul>
-      <li>People Info</li>
-      <li>People Info</li>
-      <li>People Info</li>
-      <li>People Info</li>
+      <li>Luke Skywalker</li>
+      <li>"gender": "male"</li>
+      <li>"birth_year": "19BBY"</li>
+      <li>"eye_color": "blue"</li>
     </ul>
   </div>
 </template>
@@ -19,8 +19,10 @@
     background-color: #444;
 
       img {
-        width: 150px;
-        height: 150px;
+        width: 30%;
+        border-radius: 25px;
+        padding: 15px;
+        // height: 70%;
       }
 
       ul {

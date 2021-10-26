@@ -1,14 +1,33 @@
 <template>
   <ul>
-    <li>People 1</li>
-    <li>People 2</li>
-    <li>People 3</li>
+    <PeopleItem v-for="person in people" :key="person.index" :person="person" />
   </ul>
 </template>
 
 <script>
-export default {
+import PeopleItem from '../people-item/PeopleItem.vue';
 
+const axios = require('axios').default;
+
+export default {
+  data() {
+    return {
+      people: [],
+    };
+  },
+
+  created() {
+    axios.get('https://swapi.dev/api/people/')
+      .then(response => {
+        this.people = response.data.results;
+        console.log(response.data.results);
+      })
+      .catch(error => console.log(error.response.data));
+  },
+
+  components: {
+    PeopleItem,
+  },
 }
 </script>
 
@@ -22,10 +41,6 @@ export default {
     padding-left: 10px;
     margin-left: 1.5rem;
     margin-top: 0;
-
-      li {
-        padding: 5px 0;
-      }
   }
 
 </style>
