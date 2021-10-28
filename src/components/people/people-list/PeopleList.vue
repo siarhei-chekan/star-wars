@@ -1,6 +1,10 @@
 <template>
-  <ul>
-    <PeopleItem v-for="person in people" :key="person.index" :person="person" />
+  <ul >
+    <PeopleItem v-for="(person, index) in people" 
+      :key="index" 
+      :index="index" 
+      :person="person"
+      @select-item="selectItem" />
   </ul>
 </template>
 
@@ -28,6 +32,13 @@ export default {
   components: {
     PeopleItem,
   },
+  methods: {
+    selectItem(index) {
+      const selectedItem = this.people[index];
+      console.log(index, selectedItem, 'people list');
+      this.$emit('select-item', selectedItem, index);
+    }
+  },
 }
 </script>
 
@@ -36,9 +47,9 @@ export default {
     flex-grow: 2;
     list-style: none;
     border: 1px solid #444;
-    border-radius: 3px;
+    border-radius: 0.25rem;
     background-color: #444;
-    padding-left: 10px;
+    padding-left: 0px;
     margin-left: 1.5rem;
     margin-top: 0;
   }

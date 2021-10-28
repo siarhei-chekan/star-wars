@@ -1,16 +1,35 @@
 <template>
   <div class="card">
-    <img src="https://starwars-visualguide.com/assets/img/characters/1.jpg" alt="character">
+    <img :src="charactersImgUrl + Number(this.itemIndex + 1) +'.jpg'" alt="character">
     <ul>
-      <li>Luke Skywalker</li>
-      <li>"gender": "male"</li>
-      <li>"birth_year": "19BBY"</li>
-      <li>"eye_color": "blue"</li>
+      <li class="item-name">{{ this.selectedItem.name }}</li>
+      <li><span>Gender:</span>{{ this.selectedItem.gender }}</li>
+      <li><span>Birth Year:</span>{{ this.selectedItem.birth_year }}</li>
+      <li><span>Eye Color:</span>{{ this.selectedItem.eye_color }}</li>
     </ul>
   </div>
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      charactersImgUrl: `https://starwars-visualguide.com/assets/img/characters/`,
+    };
+  },
+  props: [
+    'selectedItem',
+    'itemIndex',
+
+  ],
+}
+</script>
+
 <style lang="scss" scoped>
+  .item-name {
+    font-size: 2rem;
+  }
+
   .card {
     display: flex;
     flex-grow: 1;
@@ -31,8 +50,13 @@
         margin-left: 1.5rem;
 
           li {
-            padding: 5px 0;
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid #adb0af36;
           }
+
+            span {
+              padding-right: 1.5rem;
+            }
     }
   }
 
