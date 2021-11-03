@@ -1,21 +1,45 @@
 <template>
   <div class="people-planet">
-    <img src="https://starwars-visualguide.com/assets/img/placeholder.jpg"  alt="planet">
-    <ul>
-      <li>Population: 200,000</li>
-      <li>Rotation Period: 23 days</li>
-      <li>Diameter: 10,465km</li>
+    <img class="people-planet__img"
+      :src="planetsImgUrl + this.planetsId + '.jpg'"
+      alt="planet">
+    <ul class="people-planet__item">
+      <li class="people-planet__item_item-name">
+        {{ this.selectedItemPlanet.name }}
+      </li>
+      <li class="people-planet__item_item-population">
+        <span>Population:</span> {{ this.selectedItemPlanet.population }}
+      </li>
+      <li class="people-planet__item_item-rotation-period">
+        <span>Rotation Period:</span> {{ this.selectedItemPlanet.rotation_period }}
+      </li>
+      <li class="people-planet__item_item-rotation-diameter">
+        <span>Diameter:</span> {{ this.selectedItemPlanet.diameter }}
+      </li>
     </ul>
   </div>
 </template>
 
 <script>
-export default {
 
+export default {
+  data() {
+    return {
+      planetsImgUrl: `https://starwars-visualguide.com/assets/img/planets/`,
+    };
+  },
+  props: {
+    selectedItemPlanet: Object,
+    planetsId: String,
+  },
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+  .people-planet__item_item-name {
+    font-size: 2rem;
+  }
+
   .people-planet {
     display: flex;
     border: 1px solid #444;
@@ -24,15 +48,23 @@ export default {
     margin-bottom: 30px;
     margin-left: 1.5rem;
 
-      img {
+      .people-planet__img {
         width: 150px;
         height: 150px;
         border-radius: 25px;
         padding: 15px;
       }
 
-      ul {
+      .people-planet__item {
         list-style: none;
       }
+        li {
+          padding: 0.5rem 1rem;
+          border-bottom: 1px solid #adb0af36;
+        }
+
+          span {
+            padding-right: 1.5rem;
+          }
   }
 </style>
