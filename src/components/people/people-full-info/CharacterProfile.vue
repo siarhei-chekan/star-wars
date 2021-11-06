@@ -1,5 +1,5 @@
 <template>
-  <div class="people-card" @click="clickedByCard">
+  <div class="people-card" >
     <img 
       class="people-card__img" 
       :src="charactersImgUrl + Number(this.itemIndex + 1) +'.jpg'" 
@@ -16,7 +16,19 @@
       </li>
       <li class="people-card__item_item-eye-color">
         <span>Eye Color:</span>{{ this.selectedItem.eye_color }}
-        </li>
+      </li>
+      <li class="people-card__item_item-hair-color">
+        <span>Hair Color:</span>{{ this.selectedItem.hair_color }}
+      </li>
+      <li class="people-card__item_item-height">
+        <span>Height:</span>{{ this.selectedItem.height }}
+      </li>
+      <li class="people-card__item_item-mass">
+        <span>Mass:</span>{{ this.selectedItem.mass }}
+      </li>
+      <li class="people-card__item_item-skin-color">
+        <span>Skin Color:</span>{{ this.selectedItem.skin_color }}
+      </li>
     </ul>
   </div>
 </template>
@@ -35,10 +47,9 @@ export default {
   },
 
   methods: {
-    clickedByCard() {
-      // console.log('нажали по карте персонажа', this.itemIndex);
-      this.$emit('clicked-by-card', this.itemIndex);
-    }
+    // clickedByCard() {
+    //   console.log('нажали по карте персонажа', this.itemIndex);
+    // }
   },
 }
 </script>

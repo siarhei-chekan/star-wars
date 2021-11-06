@@ -1,11 +1,29 @@
 <template>
   <ul >
-    <h2>Star DB</h2>
-    <li id="people">People</li>
-    <li id="planets">Planets</li>
-    <li id="starships">Starships</li>
+    <h2 >Star DB</h2>
+    <li @click="pushToPeopleRoute" >People</li>
+    <li @click="pushToPlanetsRoute">Planets</li>
+    <li @click="pushToStarshipsRoute">Starships</li>
   </ul>
 </template>
+
+<script>
+export default {
+  methods: {
+    pushToPeopleRout() {
+      this.$emit('push-to-people-route');
+    },
+
+    pushToPlanetsRoute() {
+      this.$emit('push-to-planets-route');
+    },
+
+    pushToStarshipsRoute() {
+      this.$emit('push-to-starships-route');
+    },
+  },
+}
+</script>
 
 <style lang="scss" scoped>
   ul {

@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import People from '../views/People.vue';
 import Planets from '../views/Planets.vue';
 import Starships from '../views/Starships.vue';
+import CharacterProfile from '../components/people/people-full-info/CharacterProfile.vue';
 
 const routes = [
   {
@@ -13,7 +14,15 @@ const routes = [
     path: '/people',
     name: 'People',
     component: People,
+    children: [
+      {
+        path: ':id',
+        name: 'CharacterProfile',
+        component: CharacterProfile,
+      },
+    ],
   },
+
   {
     path: '/planets',
     name: 'Planets',

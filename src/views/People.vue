@@ -1,6 +1,9 @@
 <template>
   <div>
-    <PeopleHeader />    
+    <PeopleHeader 
+      @push-to-people-route="pushToPeopleRoute" 
+      @push-to-planets-route="pushToPlanetsRoute" 
+      @push-to-starships-route="pushToStarshipsRoute" /> 
     <PeoplePlanet v-if="isLoadingPlanetOver"
       :selectedItemPlanet="selectedItemPlanet" 
       :planets-id="planetsId" />
@@ -11,10 +14,16 @@
         :people="people" />
       <Spinner v-else />
       <PeopleCard 
-        v-if="isLoadingPeopleOver"       
+        v-if="isLoadingPeopleOver && !isFullCharactersInfo"       
+        :selected-item="selectedItem" 
+        :item-index="itemIndex" 
+        @clicked-by-card="clickedByCard" />
+      <!-- <Spinner v-else /> -->
+      <router-view 
+        v-else-if="isFullCharactersInfo"
         :selected-item="selectedItem" 
         :item-index="itemIndex" />
-      <Spinner v-else />        
+      <Spinner v-else />
     </div>
   </div>
 </template>
@@ -36,12 +45,14 @@ export default {
 
       selectedItem: {},
       selectedItemPlanet: {},
-      itemIndex: null,
+      itemIndex: 0,
       planetsId: '',
       
       isLoadingPeopleOver: false,
 
       isLoadingPlanetOver: false,
+
+      isFullCharactersInfo: false,
     };
   },
 
@@ -49,7 +60,7 @@ export default {
     axios.get('https://swapi.dev/api/people/')
       .then(response => {
         this.people = response.data.results;
-        this.selectedItem = this.people[0];
+        this.selectedItem = this.people[this.itemIndex];
 
         this.isLoadingPeopleOver = true;
       })
@@ -58,13 +69,19 @@ export default {
     axios.get("https://swapi.dev/api/planets/")
       .then(response => {
         this.planets = response.data.results;
-        this.selectedItemPlanet = this.planets[0];
+        this.selectedItemPlanet = this.planets[this.itemIndex];
+
+        const planetsUrl = this.selectedItemPlanet.url;
+        const lastSlashIndex = planetsUrl.lastIndexOf('/');
+        const slashIndexAfterIdPlanet = planetsUrl.lastIndexOf('/', lastSlashIndex - 1);
+
+        this.planetsId = planetsUrl.slice(slashIndexAfterIdPlanet + 1, lastSlashIndex);
 
         this.isLoadingPlanetOver = true;
       })
       .catch(error => console.log(error.response.data));
   },
-
+  
   components: {
     PeopleHeader,
     PeopleList,
@@ -84,6 +101,29 @@ export default {
       const slashIndexAfterIdPlanet = planetsUrl.lastIndexOf('/', lastSlashIndex - 1);
 
       this.planetsId = planetsUrl.slice(slashIndexAfterIdPlanet + 1, lastSlashIndex);
+
+      this.isFullCharactersInfo = false;
+      // this.isLoadingPeopleOver = false;
+      this.$router.push('/people');
+    },
+
+    clickedByCard(itemIndex) {
+      // console.log(itemIndex);
+      // this.$emit('clicked-by-card', itemIndex);
+      this.isFullCharactersInfo = true;
+      this.$router.push(`/people/${itemIndex}`);
+    },
+
+    pushToPeopleRoute() {
+      this.$router.push('/people');
+    },
+
+    pushToPlanetsRoute() {
+      this.$router.push('/planets');
+    },
+
+    pushToStarshipsRoute() {
+      this.$router.push('/starhips');
     },
   },
 }
