@@ -18,7 +18,6 @@
         :selected-item="selectedItem" 
         :item-index="itemIndex" 
         @clicked-by-card="clickedByCard" />
-      <!-- <Spinner v-else /> -->
       <router-view 
         v-else-if="isFullCharactersInfo"
         :selected-item="selectedItem" 
