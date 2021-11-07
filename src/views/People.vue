@@ -3,11 +3,14 @@
     <Header 
       @push-to-people-route="pushToPeopleRoute" 
       @push-to-planets-route="pushToPlanetsRoute" 
-      @push-to-starships-route="pushToStarshipsRoute" /> 
-    <PeoplePlanet v-if="isLoadingPlanetOver"
-      :selectedItemPlanet="selectedItemPlanet" 
-      :planets-id="planetsId" />
-    <Spinner v-else />
+      @push-to-starships-route="pushToStarshipsRoute" />
+    <div class="people-planet-container">
+      <Button v-if="isloadingPlanetError" />
+      <PeoplePlanet v-if="isLoadingPlanetOver"
+        :selectedItemPlanet="selectedItemPlanet" 
+        :planets-id="planetsId" />
+      <Spinner v-else />
+    </div>
     <div class="people-info">
       <PeopleList v-if="isLoadingPeopleOver"
         @select-item="selectItem" 
@@ -33,6 +36,7 @@ import PeopleList from '../components/people/people-list/PeopleList.vue';
 import PeopleCard from '../components/people/people-info/PeopleCard.vue';
 import PeoplePlanet from '../components/people/people-planet/PeoplePlanet.vue';
 import Spinner from '../components/spinner/Spinner.vue';
+import Button from '../components/button/Button.vue';
 
 const axios = require('axios').default;
 
@@ -52,6 +56,8 @@ export default {
       isLoadingPlanetOver: false,
 
       isFullCharactersInfo: false,
+
+      isloadingPlanetError: false,
     };
   },
 
@@ -78,7 +84,10 @@ export default {
 
         this.isLoadingPlanetOver = true;
       })
-      .catch(error => console.log(error.response.data));
+      .catch(error => {
+        console.log('Something gone wrong!', error.response.data);
+        this.isloadingPlanetError = true;
+      });
   },
   
   components: {
@@ -87,6 +96,7 @@ export default {
     PeopleCard,
     PeoplePlanet,
     Spinner,
+    Button,
   },
 
   methods: {
@@ -133,5 +143,10 @@ export default {
     display: flex;
     justify-content: space-between;
     column-gap: 25px;
+  }
+
+  .people-planet-container {
+    display: flex;
+    align-items: center;
   }
 </style>

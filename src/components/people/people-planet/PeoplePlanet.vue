@@ -42,6 +42,8 @@ export default {
 
   .people-planet {
     display: flex;
+    align-items: center;
+    flex-grow: 1;
     border: 1px solid #444;
     border-radius: 3px;
     background-color: #444;
@@ -57,6 +59,7 @@ export default {
 
       .people-planet__item {
         list-style: none;
+        padding: 0;
       }
         li {
           padding: 0.5rem 1rem;

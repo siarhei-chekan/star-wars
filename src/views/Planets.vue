@@ -3,7 +3,10 @@
     <Header 
       @push-to-people-route="pushToPeopleRoute" 
       @push-to-planets-route="pushToPlanetsRoute" 
-      @push-to-starships-route="pushToStarshipsRoute" /> 
+      @push-to-starships-route="pushToStarshipsRoute" />
+    <div class="planets-error-button">
+      <Button  v-if="isloadingPlanetError" />
+    </div>    
     <div class="planets-info">
       <PlanetsList v-if="isLoadingPlanetsOver"
         @select-item="selectItem" 
@@ -28,6 +31,7 @@ import PlanetsList from '../components/planets/planets-list/PlanetsList.vue';
 import PlanetInfo from '../components/planets/planet-info/PlanetInfo.vue';
 import Spinner from '../components/spinner/Spinner.vue';
 import Header from '../components/header/Header.vue';
+import Button from '../components/button/Button.vue';
 
 const axios = require('axios').default;
 
@@ -43,11 +47,13 @@ export default {
       isLoadingPlanetsOver: false,
 
       isFullPlanetsInfo: false,
+
+      isloadingPlanetError: false,
     };
   },
 
   created() {
-    axios.get("https://swapi.dev/api/planets/10000")
+    axios.get("https://swapi.dev/api/planets/")
       .then(response => {
         this.planets = response.data.results;
         this.selectedItemPlanet = this.planets[this.itemIndex];
@@ -60,7 +66,10 @@ export default {
 
         this.isLoadingPlanetsOver = true;
       })
-      .catch(error => console.log('Ошибка!!!!', error.response.data));
+      .catch(error => {         
+        console.log('Something gone wrong!', error.response.data);
+        this.isloadingPlanetError = true;
+        });
   },
   
   components: {
@@ -68,6 +77,7 @@ export default {
     PlanetInfo,
     Spinner,
     Header,
+    Button,
   },
 
   methods: {
@@ -114,5 +124,10 @@ export default {
     display: flex;
     justify-content: space-between;
     column-gap: 25px;
+  }
+
+  .planets-error-button {
+    display: flex;
+    justify-content: center;
   }
 </style>
