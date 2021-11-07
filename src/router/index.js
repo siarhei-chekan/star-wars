@@ -3,6 +3,7 @@ import People from '../views/People.vue';
 import Planets from '../views/Planets.vue';
 import Starships from '../views/Starships.vue';
 import CharacterProfile from '../components/people/people-full-info/CharacterProfile.vue';
+import PlanetFullInfo from '../components/planets/planet-full-info/PlanetFullInfo.vue';
 
 const routes = [
   {
@@ -27,6 +28,13 @@ const routes = [
     path: '/planets',
     name: 'Planets',
     component: Planets,
+    children: [
+      {
+        path: ':id',
+        name: "PlanetFullInfo",
+        component: PlanetFullInfo,
+      }
+    ],
   },
   {
     path: '/starhips',

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PeopleHeader 
+    <Header 
       @push-to-people-route="pushToPeopleRoute" 
       @push-to-planets-route="pushToPlanetsRoute" 
       @push-to-starships-route="pushToStarshipsRoute" /> 
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import PeopleHeader from '../components/people/people-header/PeopleHeader.vue';
+import Header from '../components/header/Header.vue';
 import PeopleList from '../components/people/people-list/PeopleList.vue';
 import PeopleCard from '../components/people/people-info/PeopleCard.vue';
 import PeoplePlanet from '../components/people/people-planet/PeoplePlanet.vue';
@@ -82,7 +82,7 @@ export default {
   },
   
   components: {
-    PeopleHeader,
+    Header,
     PeopleList,
     PeopleCard,
     PeoplePlanet,

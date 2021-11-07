@@ -1,7 +1,7 @@
 <template>
-  <ul >
-    <h2 >Star DB</h2>
-    <li @click="pushToPeopleRoute" >People</li>
+  <ul class="header">
+    <h2>Star DB</h2>
+    <li @click="pushToPeopleRoute">People</li>
     <li @click="pushToPlanetsRoute">Planets</li>
     <li @click="pushToStarshipsRoute">Starships</li>
   </ul>
@@ -10,7 +10,7 @@
 <script>
 export default {
   methods: {
-    pushToPeopleRout() {
+    pushToPeopleRoute() {
       this.$emit('push-to-people-route');
     },
 
@@ -25,8 +25,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-  ul {
+<style lang="scss">
+  .header {
     display: flex;
     list-style: none;
     justify-content: flex-start;
@@ -37,7 +37,7 @@ export default {
         padding: 15px;
         color: #00bc8c;
       }
-      h2, li:hover {
+      li:hover {
         cursor: pointer;
       }
       h2 {
