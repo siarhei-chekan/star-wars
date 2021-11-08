@@ -2,8 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router';
 import People from '../views/People.vue';
 import Planets from '../views/Planets.vue';
 import Starships from '../views/Starships.vue';
-import CharacterProfile from '../components/people/people-full-info/CharacterProfile.vue';
+import PeopleFullInfo from '../components/people/people-full-info/PeopleFullInfo.vue';
 import PlanetFullInfo from '../components/planets/planet-full-info/PlanetFullInfo.vue';
+import StarshipsFullInfo from '../components/starships/starship-full-info/StarshipsFullInfo.vue';
 
 const routes = [
   {
@@ -18,8 +19,8 @@ const routes = [
     children: [
       {
         path: ':id',
-        name: 'CharacterProfile',
-        component: CharacterProfile,
+        name: 'PeopleFullInfo',
+        component: PeopleFullInfo,
       },
     ],
   },
@@ -40,6 +41,13 @@ const routes = [
     path: '/starships',
     name: 'Starships',
     component: Starships,
+    children: [
+      {
+        path: ':id',
+        name: "StarshipsFullInfo",
+        component: StarshipsFullInfo,
+      }
+    ],
   },
 
   // {

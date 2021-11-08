@@ -31,7 +31,7 @@ import StarshipsList from '../components/starships/starships-list/StarshipsList.
 import StarshipsInfo from '../components/starships/starship-info/StarshipInfo.vue';
 import Spinner from '../components/spinner/Spinner.vue';
 import Header from '../components/header/Header.vue';
-import Button from '../components/button/Button.vue';
+// import Button from '../components/button/Button.vue';
 
 const axios = require('axios').default;
 
@@ -78,31 +78,31 @@ export default {
     StarshipsInfo,
     Spinner,
     Header,
-    Button,
+    // Button,
   },
 
   methods: {
-    selectItem(selectedItemPlanet, index) {
-      this.selectedItemPlanet = selectedItemPlanet;
+    selectItem(selectedItemStarship, index) {
+      this.selectedItemStarship = selectedItemStarship;
       this.itemIndex = index;
       // this.selectedItemPlanet = this.planets.find(planet => planet.url === selectedItem.homeworld);
 
-      const planetsUrl = selectedItemPlanet.url;
-      const lastSlashIndex = planetsUrl.lastIndexOf('/');
-      const slashIndexAfterIdPlanet = planetsUrl.lastIndexOf('/', lastSlashIndex - 1);
+      const starshipUrl = selectedItemStarship.url;
+      const lastSlashIndex = starshipUrl.lastIndexOf('/');
+      const slashIndexAfterIdStarship = starshipUrl.lastIndexOf('/', lastSlashIndex - 1);
 
-      this.planetsId = planetsUrl.slice(slashIndexAfterIdPlanet + 1, lastSlashIndex);
+      this.starshipsId = starshipUrl.slice(slashIndexAfterIdStarship + 1, lastSlashIndex);
 
-      this.isFullPlanetsInfo = false;
+      this.isFullStarshipInfo = false;
       // this.isLoadingPeopleOver = false;
-      this.$router.push('/planets');
+      this.$router.push('/starships');
     },
 
     clickedByCard(itemIndex) {
       // console.log(itemIndex);
       // this.$emit('clicked-by-card', itemIndex);
-      this.isFullPlanetsInfo = true;
-      this.$router.push(`/planets/${itemIndex}`);
+      this.isFullStarshipInfo = true;
+      this.$router.push(`/starships/${itemIndex}`);
     },
 
     pushToPeopleRoute() {

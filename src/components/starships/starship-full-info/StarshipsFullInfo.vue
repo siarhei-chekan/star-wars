@@ -17,6 +17,33 @@
       <li class="starship-card__item_item-cost-in-credits">
         <span>Cost in credits:</span>{{ this.selectedItemStarship.cost_in_credits }}
       </li>
+      <li class="starship-card__item_item-length">
+        <span>Length:</span>{{ this.selectedItemStarship.length }}
+      </li>
+      <li class="starship-card__item_item-max-atmosphering-speed">
+        <span>Max atmosphering speed:</span>{{ this.selectedItemStarship.max_atmosphering_speed }}
+      </li>
+      <li class="starship-card__item_item-crew">
+        <span>Crew:</span>{{ this.selectedItemStarship.crew }}
+      </li>
+      <li class="starship-card__item_item-passengers">
+        <span>Passengers:</span>{{ this.selectedItemStarship.passengers }}
+      </li>
+      <li class="starship-card__item_item-cargo_capacity">
+        <span>Cargo capacity:</span>{{ this.selectedItemStarship.cargo_capacity }}
+      </li>
+      <li class="starship-card__item_item-consumables">
+        <span>Consumables:</span>{{ this.selectedItemStarship.consumables }}
+      </li>
+      <li class="starship-card__item_item-hyperdrive-rating">
+        <span>Hyperdrive rating:</span>{{ this.selectedItemStarship.hyperdrive_rating }}
+      </li>
+      <li class="starship-card__item_item-MGLT">
+        <span>MGLT:</span>{{ this.selectedItemStarship.MGLT }}
+      </li>
+      <li class="starship-card__item_item-starship_class">
+        <span>Starship class:</span>{{ this.selectedItemStarship.starship_class }}
+      </li>
     </ul>
   </div>
 </template>
