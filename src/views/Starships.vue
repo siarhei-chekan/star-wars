@@ -4,22 +4,22 @@
       @push-to-people-route="pushToPeopleRoute" 
       @push-to-planets-route="pushToPlanetsRoute" 
       @push-to-starships-route="pushToStarshipsRoute" />
-    <div class="planets-error-button">
+    <!-- <div class="planets-error-button">
       <Button  v-if="isloadingPlanetError" />
-    </div>    
+    </div>     -->
     <div class="starships-info">
-      <PlanetsList v-if="isLoadingPlanetsOver"
+      <StarshipsList v-if="isLoadingStarshipsOver"
         @select-item="selectItem" 
-        :planets="planets" />
+        :starships="starships" />
       <Spinner v-else />
-      <PlanetInfo 
-        v-if="isLoadingPlanetsOver && !isFullPlanetsInfo"       
-        :selected-item-planet="selectedItemPlanet" 
+      <StarshipsInfo 
+        v-if="isLoadingStarshipsOver && !isFullStarshipInfo"       
+        :selected-item-starship="selectedItemStarship" 
         :item-index="itemIndex" 
         @clicked-by-card="clickedByCard" />
       <router-view 
-        v-else-if="isFullPlanetsInfo"
-        :selected-item-planet="selectedItemPlanet" 
+        v-else-if="isFullStarshipInfo"
+        :selected-item-starship="selectedItemStarship" 
         :item-index="itemIndex" />
       <Spinner v-else />
     </div>
@@ -27,8 +27,8 @@
 </template>
 
 <script>
-import PlanetsList from '../components/planets/planets-list/PlanetsList.vue';
-import PlanetInfo from '../components/planets/planet-info/PlanetInfo.vue';
+import StarshipsList from '../components/starships/starships-list/StarshipsList.vue';
+import StarshipsInfo from '../components/starships/starship-info/StarshipInfo.vue';
 import Spinner from '../components/spinner/Spinner.vue';
 import Header from '../components/header/Header.vue';
 import Button from '../components/button/Button.vue';
@@ -38,33 +38,34 @@ const axios = require('axios').default;
 export default {
   data() {
     return {
-      planets: [],
+      starships: [],
 
-      selectedItemPlanet: {},
+      selectedItemStarship: {},
       itemIndex: 0,
-      planetsId: '',
+      // planetsId: '',
       
-      isLoadingPlanetsOver: false,
+      isLoadingStarshipsOver: false,
 
-      isFullPlanetsInfo: false,
+      isFullStarshipInfo: false,
 
-      isloadingPlanetError: false,
+      // isloadingPlanetError: false,
     };
   },
 
   created() {
-    axios.get("https://swapi.dev/api/planets/")
+    axios.get("https://swapi.dev/api/starships/")
       .then(response => {
-        this.planets = response.data.results;
-        this.selectedItemPlanet = this.planets[this.itemIndex];
+        this.starships = response.data.results;
+        console.log(this.starships);
+        this.selectedItemStarship = this.starships[this.itemIndex];
 
-        const planetsUrl = this.selectedItemPlanet.url;
-        const lastSlashIndex = planetsUrl.lastIndexOf('/');
-        const slashIndexAfterIdPlanet = planetsUrl.lastIndexOf('/', lastSlashIndex - 1);
+        // const planetsUrl = this.selectedItemPlanet.url;
+        // const lastSlashIndex = planetsUrl.lastIndexOf('/');
+        // const slashIndexAfterIdPlanet = planetsUrl.lastIndexOf('/', lastSlashIndex - 1);
 
-        this.planetsId = planetsUrl.slice(slashIndexAfterIdPlanet + 1, lastSlashIndex);
+        // this.planetsId = planetsUrl.slice(slashIndexAfterIdPlanet + 1, lastSlashIndex);
 
-        this.isLoadingPlanetsOver = true;
+        this.isLoadingStarshipsOver = true;
       })
       .catch(error => {         
         console.log('Something gone wrong!', error.response.data);
@@ -73,8 +74,8 @@ export default {
   },
   
   components: {
-    PlanetsList,
-    PlanetInfo,
+    StarshipsList,
+    StarshipsInfo,
     Spinner,
     Header,
     Button,
@@ -113,14 +114,14 @@ export default {
     },
 
     pushToStarshipsRoute() {
-      this.$router.push('/starhips');
+      this.$router.push('/starships');
     },
   },
 }
 </script>
 
 <style lang="scss">
-  .planets-info {
+  .starships-info {
     display: flex;
     justify-content: space-between;
     column-gap: 25px;

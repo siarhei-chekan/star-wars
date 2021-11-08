@@ -37,7 +37,7 @@ const routes = [
     ],
   },
   {
-    path: '/starhips',
+    path: '/starships',
     name: 'Starships',
     component: Starships,
   },

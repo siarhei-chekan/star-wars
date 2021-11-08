@@ -113,7 +113,7 @@ export default {
     },
 
     pushToStarshipsRoute() {
-      this.$router.push('/starhips');
+      this.$router.push('/starships');
     },
   },
 }
