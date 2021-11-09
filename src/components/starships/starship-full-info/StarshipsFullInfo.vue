@@ -1,8 +1,8 @@
 <template>
   <div class="starship-card" @click="clickedByCard">
-    <img 
+    <img
       class="starship-card__img" 
-      :src="starshipsImgUrl + Number(this.itemIndex + 1) +'.jpg'" 
+      :src="starshipImgSrc" 
       alt="starship">
     <ul class="starship-card__item">
       <li class="starship-card__item_item-name">
@@ -50,15 +50,10 @@
 
 <script>
 export default {
-  data() {
-    return {
-      starshipsImgUrl: `https://starwars-visualguide.com/assets/img/starships/`,
-    };
-  },
-
   props: {
     selectedItemStarship: Object,
     itemIndex: Number,
+    starshipImgSrc: String,
   },
 
   methods: {

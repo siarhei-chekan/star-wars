@@ -4,9 +4,6 @@
       @push-to-people-route="pushToPeopleRoute" 
       @push-to-planets-route="pushToPlanetsRoute" 
       @push-to-starships-route="pushToStarshipsRoute" />
-    <!-- <div class="planets-error-button">
-      <Button  v-if="isloadingPlanetError" />
-    </div>     -->
     <div class="starships-info">
       <StarshipsList v-if="isLoadingStarshipsOver"
         @select-item="selectItem" 
@@ -16,11 +13,13 @@
         v-if="isLoadingStarshipsOver && !isFullStarshipInfo"       
         :selected-item-starship="selectedItemStarship" 
         :item-index="itemIndex" 
+        :starship-img-src="starshipImgSrc"
         @clicked-by-card="clickedByCard" />
       <router-view 
         v-else-if="isFullStarshipInfo"
         :selected-item-starship="selectedItemStarship" 
-        :item-index="itemIndex" />
+        :item-index="itemIndex" 
+        :starship-img-src="starshipImgSrc" />
       <Spinner v-else />
     </div>
   </div>
@@ -31,7 +30,6 @@ import StarshipsList from '../components/starships/starships-list/StarshipsList.
 import StarshipsInfo from '../components/starships/starship-info/StarshipInfo.vue';
 import Spinner from '../components/spinner/Spinner.vue';
 import Header from '../components/header/Header.vue';
-// import Button from '../components/button/Button.vue';
 
 const axios = require('axios').default;
 
@@ -42,13 +40,11 @@ export default {
 
       selectedItemStarship: {},
       itemIndex: 0,
-      // planetsId: '',
+      starshipImgSrc: '',
       
       isLoadingStarshipsOver: false,
 
       isFullStarshipInfo: false,
-
-      // isloadingPlanetError: false,
     };
   },
 
@@ -56,45 +52,63 @@ export default {
     axios.get("https://swapi.dev/api/starships/")
       .then(response => {
         this.starships = response.data.results;
-        console.log(this.starships);
         this.selectedItemStarship = this.starships[this.itemIndex];
+        const starshipsImgUrl = `https://starwars-visualguide.com/assets/img/starships/`;
 
-        // const planetsUrl = this.selectedItemPlanet.url;
-        // const lastSlashIndex = planetsUrl.lastIndexOf('/');
-        // const slashIndexAfterIdPlanet = planetsUrl.lastIndexOf('/', lastSlashIndex - 1);
+        const starshipsUrl = this.selectedItemStarship.url;
+        const lastSlashIndex = starshipsUrl.lastIndexOf('/');
+        const slashIndexAfterIdStarships = starshipsUrl.lastIndexOf('/', lastSlashIndex - 1);
 
-        // this.planetsId = planetsUrl.slice(slashIndexAfterIdPlanet + 1, lastSlashIndex);
+        const starshipsId = starshipsUrl.slice(slashIndexAfterIdStarships + 1, lastSlashIndex);
+        const starshipImgUrl = `${starshipsImgUrl}${starshipsId}.jpg`;
+
+        axios.get(starshipImgUrl)
+          .then(response => {
+            this.starshipImgSrc = starshipImgUrl;
+          })
+          .catch(error => {
+            console.log('This is not the picture you are looking for!', error);
+            this.starshipImgSrc = 'https://starwars-visualguide.com/assets/img/placeholder.jpg';
+          });
 
         this.isLoadingStarshipsOver = true;
       })
       .catch(error => {         
         console.log('Something gone wrong!', error.response.data);
-        this.isloadingPlanetError = true;
         });
   },
-  
+
   components: {
     StarshipsList,
     StarshipsInfo,
     Spinner,
     Header,
-    // Button,
   },
 
   methods: {
     selectItem(selectedItemStarship, index) {
       this.selectedItemStarship = selectedItemStarship;
       this.itemIndex = index;
-      // this.selectedItemPlanet = this.planets.find(planet => planet.url === selectedItem.homeworld);
 
-      const starshipUrl = selectedItemStarship.url;
-      const lastSlashIndex = starshipUrl.lastIndexOf('/');
-      const slashIndexAfterIdStarship = starshipUrl.lastIndexOf('/', lastSlashIndex - 1);
+      const starshipsImgUrl = `https://starwars-visualguide.com/assets/img/starships/`;
+      const starshipsUrl = selectedItemStarship.url;
+      const lastSlashIndex = starshipsUrl.lastIndexOf('/');
+      const slashIndexAfterIdStarships = starshipsUrl.lastIndexOf('/', lastSlashIndex - 1);
 
-      this.starshipsId = starshipUrl.slice(slashIndexAfterIdStarship + 1, lastSlashIndex);
+      const starshipsId = starshipsUrl.slice(slashIndexAfterIdStarships + 1, lastSlashIndex);
+      const starshipImgUrl = `${starshipsImgUrl}${starshipsId}.jpg`;
+
+      axios.get(starshipImgUrl)
+        .then(response => {
+          this.starshipImgSrc = starshipImgUrl;
+        })
+        .catch(error => {
+          console.log('This is not the picture you are looking for!', error);
+          this.starshipImgSrc = 'https://starwars-visualguide.com/assets/img/placeholder.jpg';
+        });
 
       this.isFullStarshipInfo = false;
-      // this.isLoadingPeopleOver = false;
+
       this.$router.push('/starships');
     },
 
