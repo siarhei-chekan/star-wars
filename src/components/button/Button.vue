@@ -17,5 +17,4 @@ export default {
     border-radius: 5px;
     cursor: pointer;
   }
-
 </style>

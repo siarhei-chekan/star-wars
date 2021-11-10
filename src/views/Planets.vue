@@ -8,19 +8,21 @@
       <Button  v-if="isloadingPlanetError" />
     </div>    
     <div class="planets-info">
-      <PlanetsList v-if="isLoadingPlanetsOver"
+      <PlanetsList v-if="isLoadingPlanetOver"
         @select-item="selectItem" 
         :planets="planets" />
       <Spinner v-else />
       <PlanetInfo 
-        v-if="isLoadingPlanetsOver && !isFullPlanetsInfo"       
+        v-if="isLoadingPlanetOver && !isFullPlanetsInfo"       
         :selected-item-planet="selectedItemPlanet" 
-        :item-index="itemIndex" 
+        :item-index="itemIndex"
+        :planet-img-src="planetImgSrc"
         @clicked-by-card="clickedByCard" />
       <router-view 
         v-else-if="isFullPlanetsInfo"
         :selected-item-planet="selectedItemPlanet" 
-        :item-index="itemIndex" />
+        :item-index="itemIndex"
+        :planet-img-src="planetImgSrc" />
       <Spinner v-else />
     </div>
   </div>
@@ -42,9 +44,9 @@ export default {
 
       selectedItemPlanet: {},
       itemIndex: 0,
-      planetsId: '',
+      planetImgSrc: '',
       
-      isLoadingPlanetsOver: false,
+      isLoadingPlanetOver: false,
 
       isFullPlanetsInfo: false,
 
@@ -57,19 +59,30 @@ export default {
       .then(response => {
         this.planets = response.data.results;
         this.selectedItemPlanet = this.planets[this.itemIndex];
+        const planetsImgUrl = `https://starwars-visualguide.com/assets/img/planets/`;
 
         const planetsUrl = this.selectedItemPlanet.url;
         const lastSlashIndex = planetsUrl.lastIndexOf('/');
         const slashIndexAfterIdPlanet = planetsUrl.lastIndexOf('/', lastSlashIndex - 1);
 
-        this.planetsId = planetsUrl.slice(slashIndexAfterIdPlanet + 1, lastSlashIndex);
+        const planetsId = planetsUrl.slice(slashIndexAfterIdPlanet + 1, lastSlashIndex);
+        const planetImgUrl = `${planetsImgUrl}${planetsId}.jpg`;
 
-        this.isLoadingPlanetsOver = true;
+        axios.get(planetImgUrl)
+          .then(response => {
+            this.planetImgSrc = planetImgUrl;
+          })
+          .catch(error => {
+            console.log('This is not the picture you are looking for!', error);
+            this.planetImgSrc = 'https://starwars-visualguide.com/assets/img/placeholder.jpg';
+          });
+
+        this.isLoadingPlanetOver = true;
       })
-      .catch(error => {         
+      .catch(error => {
         console.log('Something gone wrong!', error.response.data);
         this.isloadingPlanetError = true;
-        });
+      });
   },
   
   components: {
@@ -84,22 +97,30 @@ export default {
     selectItem(selectedItemPlanet, index) {
       this.selectedItemPlanet = selectedItemPlanet;
       this.itemIndex = index;
-      // this.selectedItemPlanet = this.planets.find(planet => planet.url === selectedItem.homeworld);
+      const planetsImgUrl = `https://starwars-visualguide.com/assets/img/planets/`;
 
-      const planetsUrl = selectedItemPlanet.url;
+      const planetsUrl = this.selectedItemPlanet.url;
       const lastSlashIndex = planetsUrl.lastIndexOf('/');
       const slashIndexAfterIdPlanet = planetsUrl.lastIndexOf('/', lastSlashIndex - 1);
 
-      this.planetsId = planetsUrl.slice(slashIndexAfterIdPlanet + 1, lastSlashIndex);
+      const planetsId = planetsUrl.slice(slashIndexAfterIdPlanet + 1, lastSlashIndex);
+      const planetImgUrl = `${planetsImgUrl}${planetsId}.jpg`;
+
+      axios.get(planetImgUrl)
+        .then(response => {
+          this.planetImgSrc = planetImgUrl;
+        })
+        .catch(error => {
+          console.log('This is not the picture you are looking for!', error);
+          this.planetImgSrc = 'https://starwars-visualguide.com/assets/img/placeholder.jpg';
+        });
 
       this.isFullPlanetsInfo = false;
-      // this.isLoadingPeopleOver = false;
+
       this.$router.push('/planets');
     },
 
     clickedByCard(itemIndex) {
-      // console.log(itemIndex);
-      // this.$emit('clicked-by-card', itemIndex);
       this.isFullPlanetsInfo = true;
       this.$router.push(`/planets/${itemIndex}`);
     },
@@ -109,6 +130,7 @@ export default {
     },
 
     pushToPlanetsRoute() {
+      this.isFullPlanetsInfo = false;
       this.$router.push('/planets');
     },
 

@@ -126,6 +126,7 @@ export default {
     },
 
     pushToStarshipsRoute() {
+      this.isFullStarshipInfo = false;
       this.$router.push('/starships');
     },
   },

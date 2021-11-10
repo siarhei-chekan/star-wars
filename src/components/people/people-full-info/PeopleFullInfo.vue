@@ -2,7 +2,7 @@
   <div class="people-card" >
     <img 
       class="people-card__img" 
-      :src="charactersImgUrl + Number(this.itemIndex + 1) +'.jpg'" 
+      :src="characterImgSrc" 
       alt="character">
     <ul class="people-card__item">
       <li class="people-card__item_item-name">
@@ -35,21 +35,10 @@
 
 <script>
 export default {
-  data() {
-    return {
-      charactersImgUrl: `https://starwars-visualguide.com/assets/img/characters/`,
-    };
-  },
-
   props: {
     selectedItem: Object,
     itemIndex: Number,
-  },
-
-  methods: {
-    // clickedByCard() {
-    //   console.log('нажали по карте персонажа', this.itemIndex);
-    // }
+    characterImgSrc: String,
   },
 }
 </script>

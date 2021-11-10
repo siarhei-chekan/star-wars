@@ -2,7 +2,7 @@
   <div class="planet-card" @click="clickedByCard">
     <img 
       class="planet-card__img" 
-      :src="planetsImgUrl + Number(this.itemIndex + 1) +'.jpg'" 
+      :src="planetImgSrc" 
       alt="planet">
     <ul class="planet-card__item">
       <li class="planet-card__item_item-name">
@@ -23,15 +23,10 @@
 
 <script>
 export default {
-  data() {
-    return {
-      planetsImgUrl: `https://starwars-visualguide.com/assets/img/planets/`,
-    };
-  },
-
   props: {
     selectedItemPlanet: Object,
     itemIndex: Number,
+    planetImgSrc: String,
   },
 
   methods: {
@@ -62,7 +57,7 @@ export default {
         width: 50%;
         border-radius: 25px;
         padding: 15px;
-        // height: 70%;
+        height: 70%;
       }
 
       .planet-card__item {

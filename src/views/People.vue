@@ -134,8 +134,34 @@ export default {
     selectItem(selectedItem, index) {
       this.selectedItem = selectedItem;
       this.itemIndex = index;
+      const peopleUrl = this.selectedItem.url;
       const planetsUrl = selectedItem.homeworld; 
-      this.isLoadingPlanetOver = false;  
+      this.isLoadingPlanetOver = false;
+      this.isLoadingPeopleOver = false;
+
+      axios.get(peopleUrl)
+        .then(response => {
+          this.selectedItem = response.data;
+          const peopleImgUrl = `https://starwars-visualguide.com/assets/img/characters/`;
+
+          const peopleUrl = this.selectedItem.url;
+          const lastSlashIndex = peopleUrl.lastIndexOf('/');
+          const slashIndexAfterIdPeople = peopleUrl.lastIndexOf('/', lastSlashIndex - 1);
+          const peopleId = peopleUrl.slice(slashIndexAfterIdPeople + 1, lastSlashIndex);
+          const characterImgUrl = `${peopleImgUrl}${peopleId}.jpg`;
+
+          axios.get(characterImgUrl)
+            .then(response => {
+              this.characterImgSrc = characterImgUrl;
+            })
+            .catch(error => {
+              console.log('This is not the picture you are looking for!', error);
+              this.characterImgSrc = 'https://starwars-visualguide.com/assets/img/placeholder.jpg';
+            });
+
+          this.isLoadingPeopleOver = true;
+        })
+        .catch(error => console.log(error.response.data));      
 
       axios.get(planetsUrl)
           .then(response => {            
@@ -176,6 +202,7 @@ export default {
     },
 
     pushToPeopleRoute() {
+      this.isFullCharactersInfo = false;
       this.$router.push('/people');
     },
 
