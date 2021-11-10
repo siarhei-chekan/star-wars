@@ -57,7 +57,7 @@ export default {
         width: 50%;
         border-radius: 25px;
         padding: 15px;
-        // height: 70%;
+        height: 70%;
       }
 
       .starship-card__item {

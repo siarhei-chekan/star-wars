@@ -1,7 +1,7 @@
 <template>
   <div class="people-planet">
     <img class="people-planet__img"
-      :src="planetsImgUrl + this.planetsId + '.jpg'"
+      :src="planetImgSrc"
       alt="planet">
     <ul class="people-planet__item">
       <li class="people-planet__item_item-name">
@@ -23,14 +23,9 @@
 <script>
 
 export default {
-  data() {
-    return {
-      planetsImgUrl: `https://starwars-visualguide.com/assets/img/planets/`,
-    };
-  },
   props: {
     selectedItemPlanet: Object,
-    planetsId: String,
+    planetImgSrc: String,
   },
 }
 </script>

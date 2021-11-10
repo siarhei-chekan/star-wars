@@ -8,7 +8,7 @@
       <Button v-if="isloadingPlanetError" />
       <PeoplePlanet v-if="isLoadingPlanetOver"
         :selectedItemPlanet="selectedItemPlanet" 
-        :planets-id="planetsId" />
+        :planet-img-src="planetImgSrc" />
       <Spinner v-else />
     </div>
     <div class="people-info">
@@ -19,12 +19,14 @@
       <PeopleCard 
         v-if="isLoadingPeopleOver && !isFullCharactersInfo"       
         :selected-item="selectedItem" 
-        :item-index="itemIndex" 
+        :item-index="itemIndex"
+        :character-img-src="characterImgSrc"
         @clicked-by-card="clickedByCard" />
       <router-view 
         v-else-if="isFullCharactersInfo"
         :selected-item="selectedItem" 
-        :item-index="itemIndex" />
+        :item-index="itemIndex" 
+        :character-img-src="characterImgSrc" />
       <Spinner v-else />
     </div>
   </div>
@@ -49,7 +51,9 @@ export default {
       selectedItem: {},
       selectedItemPlanet: {},
       itemIndex: 0,
-      planetsId: '',
+
+      characterImgSrc: '',
+      planetImgSrc: '',
       
       isLoadingPeopleOver: false,
 
@@ -66,6 +70,22 @@ export default {
       .then(response => {
         this.people = response.data.results;
         this.selectedItem = this.people[this.itemIndex];
+        const peopleImgUrl = `https://starwars-visualguide.com/assets/img/characters/`;
+
+        const peopleUrl = this.selectedItem.url;
+        const lastSlashIndex = peopleUrl.lastIndexOf('/');
+        const slashIndexAfterIdPeople = peopleUrl.lastIndexOf('/', lastSlashIndex - 1);
+        const peopleId = peopleUrl.slice(slashIndexAfterIdPeople + 1, lastSlashIndex);
+        const characterImgUrl = `${peopleImgUrl}${peopleId}.jpg`;
+
+        axios.get(characterImgUrl)
+          .then(response => {
+            this.characterImgSrc = characterImgUrl;
+          })
+          .catch(error => {
+            console.log('This is not the picture you are looking for!', error);
+            this.characterImgSrc = 'https://starwars-visualguide.com/assets/img/placeholder.jpg';
+          });
 
         this.isLoadingPeopleOver = true;
       })
@@ -75,12 +95,23 @@ export default {
       .then(response => {
         this.planets = response.data.results;
         this.selectedItemPlanet = this.planets[this.itemIndex];
+        const planetsImgUrl = `https://starwars-visualguide.com/assets/img/planets/`;
 
         const planetsUrl = this.selectedItemPlanet.url;
         const lastSlashIndex = planetsUrl.lastIndexOf('/');
         const slashIndexAfterIdPlanet = planetsUrl.lastIndexOf('/', lastSlashIndex - 1);
 
-        this.planetsId = planetsUrl.slice(slashIndexAfterIdPlanet + 1, lastSlashIndex);
+        const planetsId = planetsUrl.slice(slashIndexAfterIdPlanet + 1, lastSlashIndex);
+        const planetImgUrl = `${planetsImgUrl}${planetsId}.jpg`;
+
+        axios.get(planetImgUrl)
+          .then(response => {
+            this.planetImgSrc = planetImgUrl;
+          })
+          .catch(error => {
+            console.log('This is not the picture you are looking for!', error);
+            this.planetImgSrc = 'https://starwars-visualguide.com/assets/img/placeholder.jpg';
+          });
 
         this.isLoadingPlanetOver = true;
       })
@@ -103,22 +134,43 @@ export default {
     selectItem(selectedItem, index) {
       this.selectedItem = selectedItem;
       this.itemIndex = index;
-      this.selectedItemPlanet = this.planets.find(planet => planet.url === selectedItem.homeworld);
+      const planetsUrl = selectedItem.homeworld; 
+      this.isLoadingPlanetOver = false;  
 
-      const planetsUrl = selectedItem.homeworld;
-      const lastSlashIndex = planetsUrl.lastIndexOf('/');
-      const slashIndexAfterIdPlanet = planetsUrl.lastIndexOf('/', lastSlashIndex - 1);
+      axios.get(planetsUrl)
+          .then(response => {            
+            this.selectedItemPlanet = response.data;
+            const planetsImgUrl = `https://starwars-visualguide.com/assets/img/planets/`;
 
-      this.planetsId = planetsUrl.slice(slashIndexAfterIdPlanet + 1, lastSlashIndex);
+            const planetsUrl = this.selectedItemPlanet.url;
+            const lastSlashIndex = planetsUrl.lastIndexOf('/');
+            const slashIndexAfterIdPlanet = planetsUrl.lastIndexOf('/', lastSlashIndex - 1);
+
+            const planetsId = planetsUrl.slice(slashIndexAfterIdPlanet + 1, lastSlashIndex);
+            const planetImgUrl = `${planetsImgUrl}${planetsId}.jpg`;
+
+            axios.get(planetImgUrl)
+              .then(response => {
+              this.planetImgSrc = planetImgUrl;
+              })
+              .catch(error => {
+                console.log('This is not the picture you are looking for!', error);
+                this.planetImgSrc = 'https://starwars-visualguide.com/assets/img/placeholder.jpg';
+            });
+
+            this.isLoadingPlanetOver = true;
+          })
+          .catch(error => {
+            console.log('Something gone wrong!', error.response.data);
+            this.isloadingPlanetError = true;
+          });
 
       this.isFullCharactersInfo = false;
-      // this.isLoadingPeopleOver = false;
+
       this.$router.push('/people');
     },
 
     clickedByCard(itemIndex) {
-      // console.log(itemIndex);
-      // this.$emit('clicked-by-card', itemIndex);
       this.isFullCharactersInfo = true;
       this.$router.push(`/people/${itemIndex}`);
     },

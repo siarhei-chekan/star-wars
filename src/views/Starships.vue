@@ -113,8 +113,6 @@ export default {
     },
 
     clickedByCard(itemIndex) {
-      // console.log(itemIndex);
-      // this.$emit('clicked-by-card', itemIndex);
       this.isFullStarshipInfo = true;
       this.$router.push(`/starships/${itemIndex}`);
     },
