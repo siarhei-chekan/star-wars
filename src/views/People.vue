@@ -228,4 +228,10 @@ export default {
     display: flex;
     align-items: center;
   }
+
+  @media only screen and (max-width: 575.98px) {
+    .people-info {
+      flex-direction: column;
+    }
+  } 
 </style>

@@ -76,4 +76,15 @@ export default {
     }
   }
 
+  @media only screen and (max-width: 575.98px) {
+    .people-card {
+      margin-left: 1.5rem;
+    }
+
+    .people-card__img {
+      width: 150px;
+      height: 250px;      
+    }
+  }
+
 </style>

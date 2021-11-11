@@ -1,20 +1,20 @@
 <template>
   <div class="planet-card" @click="clickedByCard">
     <img 
-      class="planet-card__img" 
+      class="planet-card-img" 
       :src="planetImgSrc" 
       alt="planet">
-    <ul class="planet-card__item">
-      <li class="planet-card__item_item-name">
+    <ul class="planet-card-item">
+      <li class="item-name">
         {{ this.selectedItemPlanet.name }}
       </li>
-      <li class="planet-card__item_item-population">
+      <li class="item-population">
         <span>Population:</span>{{ this.selectedItemPlanet.population }}
       </li>
-      <li class="planet-card__item_item-rotation-period">
+      <li class="item-rotation-period">
         <span>Rotation Period:</span>{{ this.selectedItemPlanet.rotation_period }}
       </li>
-      <li class="planet-card__item_item-diameter">
+      <li class="item-diameter">
         <span>Diameter:</span>{{ this.selectedItemPlanet.diameter }}
       </li>
     </ul>
@@ -38,7 +38,7 @@ export default {
 </script>
 
 <style lang="scss">
-  .planet-card__item_item-name {
+  .item-name {
     font-size: 2rem;
   }
 
@@ -52,27 +52,44 @@ export default {
     border: 1px solid #444;
     border-radius: 3px;
     background-color: #444;
+  }      
 
-      .planet-card__img {
-        width: 50%;
-        border-radius: 25px;
-        padding: 15px;
-        height: 70%;
-      }
+  .planet-card-item {
+    list-style: none;
+    padding-left: 10px;
+    margin-left: 1.5rem;
+  }
 
-      .planet-card__item {
-        list-style: none;
-        padding-left: 10px;
-        margin-left: 1.5rem;
+  li {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #adb0af36;
+  }
 
-          li {
-            padding: 0.5rem 1rem;
-            border-bottom: 1px solid #adb0af36;
-          }
+  span {
+    padding-right: 1.5rem;
+  }
 
-            span {
-              padding-right: 1.5rem;
-            }
+  .planet-card-img {
+    width: 50%;
+    border-radius: 25px;
+    padding: 15px;
+    height: 70%;
+  }
+  
+  @media only screen and (max-width: 575.98px) {
+    .planet-card-img {
+      width: 150px;
+      height: 150px;
+    }
+
+    .planet-card {
+      margin-left: 1.5rem;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    li {
+      text-align: center;
     }
   }
 </style>

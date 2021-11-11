@@ -40,4 +40,11 @@ export default {
     margin-left: 1.5rem;
     margin-top: 0;
   }
+
+  @media only screen and (max-width: 575.98px) {
+    .planets-list {
+      overflow: auto;
+      height: 100px;
+    }
+  }
 </style>
