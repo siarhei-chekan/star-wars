@@ -144,4 +144,10 @@ export default {
     display: flex;
     justify-content: center;
   }
+
+  @media only screen and (max-width: 575.98px) {
+    .starships-info {
+      flex-direction: column;
+    }
+  }
 </style>

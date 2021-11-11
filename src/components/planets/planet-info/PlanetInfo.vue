@@ -60,12 +60,12 @@ export default {
     margin-left: 1.5rem;
   }
 
-  li {
+  .planet-card-item li {
     padding: 0.5rem 1rem;
     border-bottom: 1px solid #adb0af36;
   }
 
-  span {
+  .planet-card-item span {
     padding-right: 1.5rem;
   }
 
@@ -88,7 +88,7 @@ export default {
       flex-direction: column;
     }
 
-    li {
+    .planet-card-item li {
       text-align: center;
     }
   }
